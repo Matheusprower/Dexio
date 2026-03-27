@@ -14,9 +14,9 @@ public class ApiService {
                 .build();
     }
 
-    public String buscarDados() {
+    public String buscarDados(String name) {
         return webClient.get()
-                .uri("/pikachu")
+                .uri("https://pokeapi.co/api/v2/pokemon/" + name)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();

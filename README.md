@@ -14,3 +14,7 @@ Técnologias:
 * Backend - Java
 * Frontend - React
 * Hospedagem em docker e com banco de dados.
+
+Infos:
+* .\mvnw spring-boot:run //roda spring
+* Ctrl+C para para
