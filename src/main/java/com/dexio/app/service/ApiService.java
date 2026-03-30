@@ -1,24 +1,26 @@
 package com.dexio.app.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.dexio.app.dto.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
 @Service
 public class ApiService {
 
-    private final WebClient webClient;
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public ApiService(WebClient.Builder builder) {
-        this.webClient = builder
-                .baseUrl("https://pokeapi.co/api/v2/pokemon")
-                .build();
-    }
+    public List<Pokemon> buscarPokemons(int offset, int limit) {
+        String url = "https://pokeapi.co/api/v2/pokemon?limite=" + limit + "&offset=" + offset;
 
-    public String buscarDados(String name) {
-        return webClient.get()
-                .uri("https://pokeapi.co/api/v2/pokemon/" + name)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        PokemonResposta response =
+            restTemplate.getForObject(url, PokemonResposta.class);
+
+        return response.getResults();
     }
 }
