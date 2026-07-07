@@ -32,12 +32,14 @@ function filtrarPokemons() {
     let li = ul.getElementsByTagName('li');
 
     for (let i = 0; i < li.length; i++) {
-        let span = li[i].getElementsByTagName("span")[0];
-        let txtValue = span.textContent || span.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
+        let span = li[i].querySelector(".pokemon-name-list");
+        if (span) {
+            let txtValue = span.textContent || span.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
         }
     }
 }
@@ -141,6 +143,7 @@ function renderizarLista(pokemons) {
         img.alt = pokemon.nome;
 
         const nome = document.createElement("span");
+        nome.className = "pokemon-name-list";
         nome.textContent = pokemon.nome;
 
         li.appendChild(captureStatus);
