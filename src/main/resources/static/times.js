@@ -49,8 +49,7 @@ function updateTrainerPreview(val) {
         prev.src = 'https://play.pokemonshowdown.com/sprites/trainers/unknown.png';
         return;
     }
-    let cleanVal = val.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-    let url = `https://play.pokemonshowdown.com/sprites/trainers/${cleanVal}.png`;
+    let url = `https://play.pokemonshowdown.com/sprites/trainers/${val.trim().toLowerCase()}.png`;
     prev.src = url;
     prev.onerror = () => { prev.src = 'https://play.pokemonshowdown.com/sprites/trainers/unknown.png'; };
 }
@@ -415,7 +414,7 @@ function hallOfFame() {
     
     let hofImg = document.getElementById('hofTrainerImg');
     if(tObj.trainerName && tObj.trainerName.trim() !== "") {
-        let tName = tObj.trainerName.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+        let tName = tObj.trainerName.trim().toLowerCase();
         hofImg.src = `https://play.pokemonshowdown.com/sprites/trainers/${tName}.png`;
         hofImg.onerror = () => { hofImg.src = 'images/trainer_default.png'; };
         hofConfig.trainerImgUrl = hofImg.src;
