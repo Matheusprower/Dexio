@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dexio - Autenticação</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #222;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-wrapper {
+            background: #cc0000;
+            border: 4px solid #222;
+            border-radius: 15px;
+            box-shadow: inset -5px -5px 0 0 rgba(0,0,0,0.2), 0 10px 20px rgba(0,0,0,0.5);
+            width: 400px;
+            max-width: 90%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #8b0000;
+            padding-bottom: 10px;
+        }
+        .main-light {
+            width: 40px; height: 40px;
+            background: #28aafa;
+            border-radius: 50%; border: 3px solid white;
+            box-shadow: 0 0 10px #28aafa;
+            margin-right: 10px;
+        }
+        .screen-container {
+            background: #dfdfdf;
+            border-radius: 10px;
+            padding: 15px;
+            border: 3px solid #222;
+        }
+        .screen {
+            background: #98cb98;
+            border-radius: 5px;
+            border: 3px solid #222;
+            padding: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        h2 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 2px solid #222;
+            border-radius: 4px;
+            font-family: 'Roboto', sans-serif;
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background: #222;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover { background: #444; }
+        
+        .toggle-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            text-align: center;
+            margin-top: 15px;
+            cursor: pointer;
+            color: #222;
+            text-decoration: underline;
+        }
+        .alert {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            color: #d32f2f;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .success {
+            color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-wrapper">
+        <div class="header">
+            <div class="main-light"></div>
+            <h1 style="font-family: 'Press Start 2P', cursive; font-size: 1.2rem; color: #fff; text-shadow: 2px 2px 0 #000; margin: 0;">Dexio OS</h1>
+        </div>
+
+        <div class="screen-container">
+            <div class="screen" id="loginScreen">
+                <h2>Acesso Restrito</h2>
+                
+                <div id="errorMsg" class="alert" style="display:none;">Acesso Negado</div>
+                <div id="successMsg" class="alert success" style="display:none;">Cadastro Concluído</div>
+
+                <form action="/login" method="POST">
+                    <div class="form-group">
+                        <label>E-MAIL</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>SENHA</label>
+                        <input type="password" name="senha" required>
+                    </div>
+                    <button type="submit" class="btn">ENTRAR NA POKÉDEX</button>
+                </form>
+                <div class="toggle-text" onclick="toggleView()">Não tem acesso? Cadastre-se</div>
+            </div>
+
+            <div class="screen" id="registerScreen" style="display:none;">
+                <h2>Novo Treinador</h2>
+
+                <div id="registerErrorMsg" class="alert" style="display:none;">E-mail já registrado</div>
+
+                <form action="/cadastro" method="POST">
+                    <div class="form-group">
+                        <label>NOME</label>
+                        <input type="text" name="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-MAIL</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>SENHA</label>
+                        <input type="password" name="senha" required>
+                    </div>
+                    <button type="submit" class="btn">REGISTRAR</button>
+                </form>
+                <div class="toggle-text" onclick="toggleView()">Voltar ao Login</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleView() {
+            let login = document.getElementById("loginScreen");
+            let register = document.getElementById("registerScreen");
+            if (login.style.display === "none") {
+                login.style.display = "block";
+                register.style.display = "none";
+            } else {
+                login.style.display = "none";
+                register.style.display = "block";
+            }
+        }
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.get('error') === 'true') {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+            if(urlParams.get('error') === 'email_exists') {
+                toggleView();
+                document.getElementById('registerErrorMsg').style.display = 'block';
+            }
+            if(urlParams.get('success') === 'true') {
+                document.getElementById('successMsg').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

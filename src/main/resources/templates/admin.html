@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex - Controle de Usuários</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.6rem; font-family: 'Roboto', sans-serif;}
+        .admin-table th, .admin-table td { padding: 8px; border: 2px solid var(--pokedex-border); text-align: left; }
+        .admin-table th { background: #222; color: #fff; font-family: 'Press Start 2P', cursive; font-size: 0.5rem; }
+        .admin-table tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+        .admin-input { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.7); border: 2px solid #222; padding: 6px; color: #000; border-radius: 4px; font-weight: bold;}
+        .admin-btn { background: #222; color: #fff; border: 2px solid #555; padding: 8px 12px; cursor: pointer; font-family: 'Press Start 2P', cursive; font-size: 0.5rem; border-radius: 4px;}
+        .admin-btn:hover { background: #444; }
+    </style>
+</head>
+<body>
+    <!-- Menu Lateral Compartilhado -->
+    <div id="menuOverlay" class="menu-overlay" onclick="toggleMenu()"></div>
+    <div id="sideMenu" class="side-menu">
+        <ul>
+            <li><a href="/pokedex">Pokédex</a></li>
+            <li><a href="/times">Meus Times</a></li>
+            <li><a href="/admin">Controle de Usuários</a></li>
+            <li><a href="/logout">Sair</a></li>
+        </ul>
+    </div>
+
+    <div class="pokedex-wrapper" style="justify-content: center; padding: 20px; flex-direction: row; align-items: center; background: #222;">
+        <div class="pokedex-left-panel" style="width: 100%; max-width: 1000px; height: 90vh; border-radius: 15px; border-right: 3px solid var(--pokedex-border); box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+            
+            <div class="pokedex-header">
+                <div class="main-light pulse-light" onclick="toggleMenu()" title="Menu">
+                    <div class="main-light-reflection"></div>
+                </div>
+                <div class="small-lights">
+                    <div class="small-light red"></div>
+                    <div class="small-light yellow"></div>
+                    <div class="small-light green"></div>
+                </div>
+            </div>
+
+            <div class="pokedex-screen-border" style="flex-grow: 1;">
+                <div class="pokedex-screen" style="padding: 20px;">
+                    <h1 class="retro-text text-uppercase mb-2" style="font-size: 1.2rem; color: #fff; text-shadow: 2px 2px 0 #000; text-align: center;">Controle Admin</h1>
+                    
+                    <div style="margin-bottom: 20px; display:flex; justify-content:center;">
+                        <button class="btn-pokedex" onclick="novoUsuario()">+ NOVO USUÁRIO</button>
+                        <button class="btn-pokedex" style="margin-left:10px; background-color:#800000;" onclick="limparCacheAPI()">LIMPAR CACHE DA API</button>
+                    </div>
+
+                    <div class="pokemon-info-display retro-text-sm" style="flex-grow: 1; overflow-y: auto; background: #dfdfdf;">
+                        <table class="admin-table" id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>E-mail</th>
+                                    <th>Senha</th>
+                                    <th>Admin</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Users injected here via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

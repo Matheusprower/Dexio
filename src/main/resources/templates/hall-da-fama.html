@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hall da Fama</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hof-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            aspect-ratio: 16/9;
+            background-size: cover;
+            background-position: center;
+            border: 4px solid #fff;
+            border-radius: 8px;
+        }
+
+        .retro-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #222;
+            color: #fff;
+            border: 2px solid #fff;
+            font-family: 'Press Start 2P', cursive;
+            padding: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .retro-btn:hover {
+            background: #444;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/" class="retro-btn" style="display: flex; align-items: center; gap: 8px;">
+        <div
+            style="width: 16px; height: 16px; background: #e3350d; border-radius: 50%; border: 2px solid #222; position: relative; overflow: hidden; box-sizing: border-box;">
+            <div style="position: absolute; bottom: 0; width: 100%; height: 50%; background: #fff;"></div>
+            <div
+                style="position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #222; transform: translateY(-50%);">
+            </div>
+            <div
+                style="position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; background: #fff; border: 2px solid #222; border-radius: 50%; transform: translate(-50%, -50%); box-sizing: border-box;">
+            </div>
+        </div>
+        IR PARA A DEXIO
+    </a>
+
+    <div id="hofMain" class="hof-container">
+        <!-- Overlay container that gets Hue filter without affecting pokemon -->
+        <div id="bgFilter"
+            style="position:absolute; top:0; left:0; width:100%; height:100%; z-index: 1; display:flex; flex-direction:column;">
+            <div style="flex: 1.5; background-color: #9fb8df;"></div>
+            <div
+                style="flex: 6.5; background-color: #cadcf9; display: flex; align-items: flex-end; padding: 2% 5% 5% 5%; box-sizing: border-box;">
+
+                <div id="teamGrid"
+                    style="flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; z-index: 2; pointer-events:auto; align-items: end;">
+                    <!-- Pokemons generated here -->
+                </div>
+
+                <div id="trainerWrapper"
+                    style="width: 30%; display:flex; flex-direction:column; align-items:center; justify-content: flex-end; z-index: 2; pointer-events:auto; padding-bottom: 2px;">
+                    <div id="gameLogoText"
+                        style="font-family:'Press Start 2P', cursive; font-size:1.5rem; color:white; text-shadow: 2px 2px 0 #000; margin-bottom: 15px; display: none; text-align:center;">
+                    </div>
+                    <img id="gameLogo" referrerpolicy="no-referrer"
+                        style="max-width: 250px; max-height: 150px; object-fit: contain; margin-bottom: 5px; display: none;">
+                    <img id="trainerImg" referrerpolicy="no-referrer" style="height: 250px; object-fit: contain;">
+                    <div id="trainerName"
+                        style="font-family:'Press Start 2P', cursive; font-size:1rem; color:white; text-shadow: 2px 2px 0 #000; margin-top:10px;">
+                    </div>
+                </div>
+
+            </div>
+            <div style="flex: 2; background-color: #586988; display:flex; align-items:center; justify-content:center;">
+                <div style="position:relative;">
+                    <div style="font-family:'Press Start 2P', cursive; color:#fff; font-size:2rem;">HALL DA FAMA</div>
+                </div>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            let encodedData = /*[[${hofData}]]*/ '';
+            /*]]>*/
+
+            try {
+                let jsonString = decodeURIComponent(escape(atob(encodedData)));
+                let conf = JSON.parse(jsonString);
+
+                let bg = document.getElementById('bgFilter');
+                let theme = conf.bgTheme || 'default';
+                let filterStr = "";
+                switch (theme) {
+                    case 'green': filterStr = "hue-rotate(240deg)"; break;
+                    case 'red': filterStr = "hue-rotate(130deg)"; break;
+                    case 'purple': filterStr = "hue-rotate(60deg)"; break;
+                    case 'yellow': filterStr = "hue-rotate(180deg)"; break;
+                    case 'cyan': filterStr = "hue-rotate(300deg)"; break;
+                    case 'black': filterStr = "grayscale(1) brightness(0.3)"; break;
+                    case 'white': filterStr = "grayscale(1) brightness(1.5)"; break;
+                    default: filterStr = "hue-rotate(0deg)"; break;
+                }
+                if (conf.bgHue !== undefined) filterStr = `hue-rotate(${conf.bgHue}deg)`; // Fallback to old format
+                bg.style.filter = filterStr;
+
+                let tImg = document.getElementById('trainerImg');
+                tImg.src = conf.trainerImg;
+                tImg.style.display = conf.trainerImgVisible ? 'block' : 'none';
+
+                let tName = document.getElementById('trainerName');
+                tName.textContent = conf.trainerName;
+                tName.style.display = conf.trainerNameVisible ? 'block' : 'none';
+
+                let gLogo = document.getElementById('gameLogo');
+                let gLogoText = document.getElementById('gameLogoText');
+                if (conf.gameLogoUrl && conf.gameLogoUrl.trim() !== "") {
+                    gLogo.src = conf.gameLogoUrl;
+                    gLogo.onerror = () => {
+                        gLogo.style.display = 'none';
+                        if (gLogoText) {
+                            gLogoText.textContent = conf.gameLogoName || "POKÉMON";
+                            gLogoText.style.display = conf.gameLogoVisible !== false ? 'block' : 'none';
+                        }
+                    };
+                    gLogo.style.display = conf.gameLogoVisible !== false ? 'block' : 'none';
+                    if (gLogoText) gLogoText.style.display = 'none';
+                } else {
+                    gLogo.style.display = 'none';
+                    if (gLogoText) gLogoText.style.display = 'none';
+                }
+
+                let grid = document.getElementById('teamGrid');
+                conf.pokemons.forEach(p => {
+                    let div = document.createElement('div');
+                    div.style.display = 'flex'; div.style.flexDirection = 'column'; div.style.alignItems = 'center';
+
+                    if (p) {
+                        let img = document.createElement('img');
+                        img.src = p.spriteUrl;
+                        img.style.width = '180px'; img.style.height = '180px'; img.style.objectFit = 'contain';
+
+                        let name = document.createElement('div');
+                        name.textContent = p.name;
+                        name.style.fontFamily = "'Press Start 2P', cursive";
+                        name.style.fontSize = "0.8rem";
+                        name.style.color = "white";
+                        name.style.textShadow = "2px 2px 0 #000";
+                        name.style.marginTop = "10px";
+                        name.style.opacity = p.nameVisible ? '1' : '0';
+
+                        div.appendChild(img);
+                        div.appendChild(name);
+                    }
+                    grid.appendChild(div);
+                });
+
+            } catch (e) {
+                console.error(e);
+                alert("Link de Hall da Fama inválido ou corrompido.");
+            }
+        </script>
+</body>
+
+</html>

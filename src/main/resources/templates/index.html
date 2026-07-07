@@ -1,17 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap.css">
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-
-    <h1 id="titulo">Texto original</h1>
-    <div>
-    <ul id="lista"></ul>
+    <!-- Menu Lateral -->
+    <div id="menuOverlay" class="menu-overlay" onclick="toggleMenu()"></div>
+    <div id="sideMenu" class="side-menu">
+        <ul>
+            <li><a href="/pokedex">Pokédex</a></li>
+            <li><a href="/times">Meus Times</a></li>
+            <li id="menuAdmin" style="display:none;"><a href="/admin">Controle de Usuários</a></li>
+            <li><a href="/logout">Sair</a></li>
+        </ul>
     </div>
-    <p id = "loading">Carregando...</p>
-    <button onclick="mudarTexto()">Clique aqui</button>
 
+    <div class="pokedex-wrapper">
+        
+        <!-- Left Panel (Details) -->
+        <div class="pokedex-left-panel" id="infoPanel">
+            <!-- Pokedex Header (Lights) -->
+            <div class="pokedex-header" style="justify-content: space-between; width: 100%; align-items: flex-start;">
+                <div style="display: flex; gap: 15px;">
+                    <div class="main-light pulse-light" onclick="toggleMenu()" title="Menu">
+                        <div class="main-light-reflection"></div>
+                    </div>
+                    <div class="small-lights">
+                        <div class="small-light red"></div>
+                        <div class="small-light yellow"></div>
+                        <div class="small-light green"></div>
+                    </div>
+                </div>
+                <button class="mobile-back-btn retro-text-sm" onclick="scrollToList()">LISTA ▼</button>
+            </div>
+
+            <!-- Left Main Screen (Info) -->
+            <div class="pokedex-screen-border">
+                <div class="pokedex-screen-header">
+                    <div class="screen-dot"></div>
+                    <div class="screen-dot"></div>
+                </div>
+                
+                <!-- The entire pokedex-screen is now scrollable -->
+                <div class="pokedex-screen">
+                    
+                    <div style="position: relative; width: 100%; margin-bottom: 0.8rem; display: flex; justify-content: center; align-items: center; min-height: 24px;">
+                        <span id="formEmojiBtn" class="retro-text" style="position: absolute; left: 0; cursor: pointer; user-select: none; font-size: 1.2rem; margin: 0;" onclick="nextForm()" title="Mudar Forma">⚪</span>
+                        <h1 id="pokemonNameDisplay" class="retro-text text-uppercase mb-0" style="font-size: 1.0rem; color: #fff; text-shadow: 2px 2px 0 #000; margin: 0;">Pokedex</h1>
+                        <span id="captureBtn" class="retro-text" style="position: absolute; right: 0; cursor: pointer; user-select: none; font-size: 1.2rem; margin: 0; display: none;" onclick="toggleCaptura()" title="Mudar Status de Captura">🔴</span>
+                    </div>
+                    
+                    <div class="pokemon-image-container">
+                        <img id="pokemonImageDisplay" src="" alt="Pokemon">
+                    </div>
+                    
+                    <div class="pokemon-info-display retro-text-sm">
+                        <p><strong>TIPO:</strong> <span id="pokemonTypesDisplay" class="text-uppercase">--</span></p>
+                        <p><strong>EGG GROUP:</strong> <span id="pokemonEggGroupsDisplay" class="text-uppercase">--</span></p>
+                        
+                        <hr style="border-color: #222; margin: 10px 0;">
+
+                        <p><strong>EVOLUÇÃO:</strong> <br><span id="pokemonEvoDisplay" class="text-uppercase" style="font-size: 0.55rem; line-height: 1.8; display: block; margin-top: 5px;">--</span></p>
+                        
+                        <hr style="border-color: #222; margin: 10px 0;">
+                        
+                        <p><strong>LOCAIS DE CAPTURA (POR JOGO):</strong></p>
+                        <div id="pokemonLocationsDisplay" class="text-uppercase" style="font-size: 0.5rem; line-height: 1.8; background: rgba(0,0,0,0.1); padding: 5px; border-radius: 4px; margin-bottom: 10px;">--</div>
+
+                        <hr style="border-color: #222; margin: 10px 0;">
+
+                        <p style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 5px;">
+                            <strong>ATAQUES APRENDIDOS:</strong>
+                            <select id="movesGameSelect" onchange="window.updateMovesForSelectedGame()" style="background:#222; color:#fff; border:1px solid #fff; font-family:'Press Start 2P', cursive; font-size:0.5rem; padding:2px; max-width: 50%;">
+                                <option value="latest">Mais Recente</option>
+                                <option value="red-blue">Red/Blue</option>
+                                <option value="yellow">Yellow</option>
+                                <option value="gold-silver">Gold/Silver</option>
+                                <option value="crystal">Crystal</option>
+                                <option value="ruby-sapphire">Ruby/Sapphire</option>
+                                <option value="emerald">Emerald</option>
+                                <option value="firered-leafgreen">FireRed/LeafGreen</option>
+                                <option value="diamond-pearl">Diamond/Pearl</option>
+                                <option value="platinum">Platinum</option>
+                                <option value="heartgold-soulsilver">HeartGold/SoulSilver</option>
+                                <option value="black-white">Black/White</option>
+                                <option value="black-2-white-2">Black 2/White 2</option>
+                                <option value="x-y">X/Y</option>
+                                <option value="omega-ruby-alpha-sapphire">Omega Ruby/Alpha Sapphire</option>
+                                <option value="sun-moon">Sun/Moon</option>
+                                <option value="ultra-sun-ultra-moon">Ultra Sun/Ultra Moon</option>
+                                <option value="lets-go-pikachu-lets-go-eevee">Let's Go Pika/Eevee</option>
+                                <option value="sword-shield">Sword/Shield</option>
+                                <option value="brilliant-diamond-and-shining-pearl">BD/SP</option>
+                                <option value="legends-arceus">Legends Arceus</option>
+                                <option value="scarlet-violet">Scarlet/Violet</option>
+                            </select>
+                        </p>
+                        <div id="pokemonMovesDisplay" class="text-uppercase" style="font-size: 0.5rem; line-height: 1.8; background: rgba(0,0,0,0.1); padding: 5px; border-radius: 4px;">--</div>
+                    </div>
+                </div>
+
+                <div class="pokedex-screen-footer">
+                    <div class="screen-dot-large"></div>
+                    <div class="speaker-lines">
+                        <div class="speaker-line"></div>
+                        <div class="speaker-line"></div>
+                        <div class="speaker-line"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Central Hinge -->
+        <div class="pokedex-hinge">
+            <div class="hinge-line"></div>
+            <div class="hinge-line"></div>
+            <div class="hinge-line"></div>
+        </div>
+
+        <!-- Right Panel (List) -->
+        <div class="pokedex-right-panel" id="listPanel">
+            <div class="right-screen-border">
+                <div class="right-screen">
+                    
+                    <!-- Search Input Field -->
+                    <div style="padding: 0 5px 10px 5px; flex-shrink: 0;">
+                        <input type="text" id="searchInput" onkeyup="filtrarPokemons()" placeholder="Pesquisar..." style="width: 100%; padding: 10px; border-radius: 4px; border: 3px solid var(--pokedex-border); font-family: 'Press Start 2P', cursive; font-size: 0.65rem; text-transform: uppercase; background: #fff; color: #222;">
+                    </div>
+
+                    <div class="pokemon-list-container" id="listContainer">
+                        <ul id="lista" class="pokemon-list"></ul>
+                        <p id="loading" class="retro-text text-center mt-2" style="font-size: 0.8rem;">Carregando...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-buttons-container">
+                <div class="grid-buttons">
+                    <div class="grid-btn"></div>
+                    <div class="grid-btn"></div>
+                    <div class="grid-btn"></div>
+                    <div class="grid-btn"></div>
+                    <div class="grid-btn"></div>
+                    <div class="grid-btn"></div>
+                    <div class="grid-btn"></div>
+                    <div class="grid-btn"></div>
+                    <div class="grid-btn"></div>
+                    <div class="grid-btn"></div>
+                </div>
+                <div class="yellow-box"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="common.js"></script>
     <script src="index.js"></script>
 </body>
 </html>
