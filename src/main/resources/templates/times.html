@@ -188,25 +188,35 @@
             </div>
             
             <div id="hofCard" style="position:relative; width:100%; aspect-ratio: 16/9; overflow:hidden; display: flex; flex-direction: column;">
-                <!-- Fundo com as listras -->
-                <div id="hofBgFilter" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index: 1; display:flex; flex-direction:column;">
-                    <div style="flex: 1.5; background-color: #9fb8df;"></div>
-                    <div style="flex: 6.5; background-color: #cadcf9; display: flex; align-items: flex-end; padding: 2% 5% 5% 5%; box-sizing: border-box;">
-                        
-                        <div id="hofTeamGrid" style="flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; z-index: 2; pointer-events:auto; align-items: end;">
-                            <!-- Pokemons generated here -->
-                        </div>
-                        
-                        <div id="hofTrainerWrapper" style="width: 30%; display:flex; flex-direction:column; align-items:center; justify-content: flex-end; z-index: 2; pointer-events:auto; padding-bottom: 2px;">
-                            <div id="hofGameLogoText" style="font-family:'Press Start 2P', cursive; font-size:1rem; color:white; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; display: none; cursor:pointer; text-align:center;" onclick="toggleGameLogo()" title="Clique para esconder/mostrar logo"></div>
-                            <img id="hofGameLogo" referrerpolicy="no-referrer" style="max-width: 140px; max-height: 50px; object-fit: contain; margin-bottom: 5px; display: none; cursor:pointer;" onclick="toggleGameLogo()" title="Clique para esconder/mostrar logo">
-                            <img id="hofTrainerImg" referrerpolicy="no-referrer" src="images/trainer_default.png" style="height: 160px; cursor:pointer; object-fit: contain;" onclick="toggleTrainerImg()" title="Clique para esconder/mostrar imagem">
-                            <div id="hofTrainerName" style="font-family:'Press Start 2P', cursive; font-size:0.6rem; color:white; text-shadow: 1px 1px 0 #000; margin-top:5px; cursor:pointer;" onclick="toggleTrainerName()" title="Clique para ocultar/mostrar o nome">Treinador</div>
-                        </div>
-
+                <!-- Fundo com as listras e Conteudo separado -->
+                <div style="position:relative; width:100%; height:100%;">
+                    <!-- Fundo puro para receber o filtro -->
+                    <div id="hofBgFilter" style="position:absolute; top:0; left:0; width:100%; height:100%; z-index: 1; display:flex; flex-direction:column;">
+                        <div style="flex: 1.5; background-color: #9fb8df;"></div>
+                        <div style="flex: 6.5; background-color: #cadcf9;"></div>
+                        <div style="flex: 2; background-color: #586988;"></div>
                     </div>
-                    <div style="flex: 2; background-color: #586988; display:flex; align-items:center; justify-content:center;">
-                        <div style="font-family:'Press Start 2P', cursive; color:#fff; font-size:1.2rem;">HALL DA FAMA</div>
+                    
+                    <!-- Camada de conteudo sem filtro -->
+                    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index: 2; display:flex; flex-direction:column; pointer-events:none;">
+                        <div style="flex: 1.5;"></div>
+                        <div style="flex: 6.5; display: flex; align-items: flex-end; padding: 2% 5% 5% 5%; box-sizing: border-box; pointer-events:none;">
+                            
+                            <div id="hofTeamGrid" style="flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; pointer-events:auto; align-items: end;">
+                                <!-- Pokemons generated here -->
+                            </div>
+                            
+                            <div id="hofTrainerWrapper" style="width: 30%; display:flex; flex-direction:column; align-items:center; justify-content: flex-end; pointer-events:auto; padding-bottom: 2px;">
+                                <div id="hofGameLogoText" style="font-family:'Press Start 2P', cursive; font-size:1rem; color:white; text-shadow: 2px 2px 0 #000; margin-bottom: 10px; display: none; cursor:pointer; text-align:center;" onclick="toggleGameLogo()" title="Clique para esconder/mostrar logo"></div>
+                                <img id="hofGameLogo" referrerpolicy="no-referrer" style="max-width: 140px; max-height: 50px; object-fit: contain; margin-bottom: 5px; display: none; cursor:pointer;" onclick="toggleGameLogo()" title="Clique para esconder/mostrar logo">
+                                <img id="hofTrainerImg" referrerpolicy="no-referrer" src="images/trainer_default.png" style="height: 160px; cursor:pointer; object-fit: contain;" onclick="toggleTrainerImg()" title="Clique para esconder/mostrar imagem">
+                                <div id="hofTrainerName" style="font-family:'Press Start 2P', cursive; font-size:0.6rem; color:white; text-shadow: 1px 1px 0 #000; margin-top:5px; cursor:pointer;" onclick="toggleTrainerName()" title="Clique para ocultar/mostrar o nome">Treinador</div>
+                            </div>
+
+                        </div>
+                        <div style="flex: 2; display:flex; align-items:center; justify-content:center; pointer-events:auto;">
+                            <div style="font-family:'Press Start 2P', cursive; color:#fff; font-size:1.2rem;">HALL DA FAMA</div>
+                        </div>
                     </div>
                 </div>
             </div>

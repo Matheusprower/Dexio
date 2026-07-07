@@ -598,8 +598,18 @@ async function exportHof() {
     let link = window.location.origin + "/hall-da-fama?data=" + base64;
     
     try {
-        await navigator.clipboard.writeText(link);
-        showToast("Link copiado para a área de transferência!", "success");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(link);
+            showToast("Link copiado para a área de transferência!", "success");
+        } else {
+            let textArea = document.createElement("textarea");
+            textArea.value = link;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            showToast("Link copiado para a área de transferência!", "success");
+        }
     } catch(err) {
         showToast("Erro ao copiar link.");
     }
