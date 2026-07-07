@@ -27,8 +27,16 @@ public class PokemonController {
                 .map(p -> p.getNome().toLowerCase())
                 .collect(java.util.stream.Collectors.toSet());
 
+        java.util.Set<String> nomesProcessados = new java.util.HashSet<>();
         List<Pokemon> novosPokemons = pokemons.stream()
-                .filter(p -> !nomesExistentes.contains(p.getNome().toLowerCase()))
+                .filter(p -> {
+                    String nome = p.getNome().toLowerCase();
+                    if (nomesExistentes.contains(nome) || nomesProcessados.contains(nome)) {
+                        return false;
+                    }
+                    nomesProcessados.add(nome);
+                    return true;
+                })
                 .peek(p -> p.setDetalhesCarregados(false))
                 .collect(java.util.stream.Collectors.toList());
 

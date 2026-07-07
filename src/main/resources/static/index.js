@@ -101,11 +101,16 @@ function carregarTodosPokemons() {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(toSave)
+                        }).then(() => {
+                            renderizarLista(toSave);
+                            if (loadingEl) loadingEl.style.display = "none";
+                            if (toSave.length > 0) carregarPokemonInfo(toSave[0].nome, toSave[0].id, true);
+                        }).catch(err => {
+                            console.error("Erro ao salvar lista no banco:", err);
+                            renderizarLista(toSave);
+                            if (loadingEl) loadingEl.style.display = "none";
+                            if (toSave.length > 0) carregarPokemonInfo(toSave[0].nome, toSave[0].id, true);
                         });
-
-                        renderizarLista(toSave);
-                        if (loadingEl) loadingEl.style.display = "none";
-                        if (toSave.length > 0) carregarPokemonInfo(toSave[0].nome, toSave[0].id, true);
                     });
             }
         })
