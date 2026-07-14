@@ -46,12 +46,12 @@ function scrollToList() {
 function updateTrainerPreview(val) {
     let prev = document.getElementById('trainerPreview');
     if(!val || val.trim() === "") {
-        prev.src = 'https://play.pokemonshowdown.com/sprites/trainers/unknown.png';
+        prev.src = 'images/trainer_default.png';
         return;
     }
-    let url = `https://play.pokemonshowdown.com/sprites/trainers/${val.trim().toLowerCase()}.png`;
+    let url = `images/trainers/${val.trim().toLowerCase()}.png`;
     prev.src = url;
-    prev.onerror = () => { prev.src = 'https://play.pokemonshowdown.com/sprites/trainers/unknown.png'; };
+    prev.onerror = () => { prev.src = 'images/trainer_default.png'; };
 }
 
 function setupTrainerAutocomplete(list) {
@@ -354,41 +354,41 @@ let hofConfig = {
 const trainerImages = ['images/trainer_default.png']; // can add more
 
 const gameLogos = {
-    "red": "https://img.pokemondb.net/boxes/red.jpg",
-    "blue": "https://img.pokemondb.net/boxes/blue.jpg",
-    "yellow": "https://img.pokemondb.net/boxes/yellow.jpg",
-    "gold": "https://img.pokemondb.net/boxes/gold.jpg",
-    "silver": "https://img.pokemondb.net/boxes/silver.jpg",
-    "crystal": "https://img.pokemondb.net/boxes/crystal.jpg",
-    "ruby": "https://img.pokemondb.net/boxes/ruby.jpg",
-    "sapphire": "https://img.pokemondb.net/boxes/sapphire.jpg",
-    "emerald": "https://img.pokemondb.net/boxes/emerald.jpg",
-    "firered": "https://img.pokemondb.net/boxes/firered.jpg",
-    "leafgreen": "https://img.pokemondb.net/boxes/leafgreen.jpg",
-    "diamond": "https://img.pokemondb.net/boxes/diamond.jpg",
-    "pearl": "https://img.pokemondb.net/boxes/pearl.jpg",
-    "platinum": "https://img.pokemondb.net/boxes/platinum.jpg",
-    "heartgold": "https://img.pokemondb.net/boxes/heartgold.jpg",
-    "soulsilver": "https://img.pokemondb.net/boxes/soulsilver.jpg",
-    "black": "https://img.pokemondb.net/boxes/black.jpg",
-    "white": "https://img.pokemondb.net/boxes/white.jpg",
-    "black2": "https://img.pokemondb.net/boxes/black-2.jpg",
-    "white2": "https://img.pokemondb.net/boxes/white-2.jpg",
-    "x": "https://img.pokemondb.net/boxes/x.jpg",
-    "y": "https://img.pokemondb.net/boxes/y.jpg",
-    "omegaruby": "https://img.pokemondb.net/boxes/omega-ruby.jpg",
-    "alphasapphire": "https://img.pokemondb.net/boxes/alpha-sapphire.jpg",
-    "sun": "https://img.pokemondb.net/boxes/sun.jpg",
-    "moon": "https://img.pokemondb.net/boxes/moon.jpg",
-    "ultrasun": "https://img.pokemondb.net/boxes/ultra-sun.jpg",
-    "ultramoon": "https://img.pokemondb.net/boxes/ultra-moon.jpg",
-    "sword": "https://img.pokemondb.net/boxes/sword.jpg",
-    "shield": "https://img.pokemondb.net/boxes/shield.jpg",
-    "brilliantdiamond": "https://img.pokemondb.net/boxes/brilliant-diamond.jpg",
-    "shiningpearl": "https://img.pokemondb.net/boxes/shining-pearl.jpg",
-    "legendsarceus": "https://img.pokemondb.net/boxes/legends-arceus.jpg",
-    "scarlet": "https://img.pokemondb.net/boxes/scarlet.jpg",
-    "violet": "https://img.pokemondb.net/boxes/violet.jpg"
+    "red": "images/boxes/red.jpg",
+    "blue": "images/boxes/blue.jpg",
+    "yellow": "images/boxes/yellow.jpg",
+    "gold": "images/boxes/gold.jpg",
+    "silver": "images/boxes/silver.jpg",
+    "crystal": "images/boxes/crystal.jpg",
+    "ruby": "images/boxes/ruby.jpg",
+    "sapphire": "images/boxes/sapphire.jpg",
+    "emerald": "images/boxes/emerald.jpg",
+    "firered": "images/boxes/firered.jpg",
+    "leafgreen": "images/boxes/leafgreen.jpg",
+    "diamond": "images/boxes/diamond.jpg",
+    "pearl": "images/boxes/pearl.jpg",
+    "platinum": "images/boxes/platinum.jpg",
+    "heartgold": "images/boxes/heartgold.jpg",
+    "soulsilver": "images/boxes/soulsilver.jpg",
+    "black": "images/boxes/black.jpg",
+    "white": "images/boxes/white.jpg",
+    "black2": "images/boxes/black-2.jpg",
+    "white2": "images/boxes/white-2.jpg",
+    "x": "images/boxes/x.jpg",
+    "y": "images/boxes/y.jpg",
+    "omegaruby": "images/boxes/omega-ruby.jpg",
+    "alphasapphire": "images/boxes/alpha-sapphire.jpg",
+    "sun": "images/boxes/sun.jpg",
+    "moon": "images/boxes/moon.jpg",
+    "ultrasun": "images/boxes/ultra-sun.jpg",
+    "ultramoon": "images/boxes/ultra-moon.jpg",
+    "sword": "images/boxes/sword.jpg",
+    "shield": "images/boxes/shield.jpg",
+    "brilliantdiamond": "images/boxes/brilliant-diamond.jpg",
+    "shiningpearl": "images/boxes/shining-pearl.jpg",
+    "legendsarceus": "images/boxes/legends-arceus.jpg",
+    "scarlet": "images/boxes/scarlet.jpg",
+    "violet": "images/boxes/violet.jpg"
 };
 
 function hallOfFame() {
@@ -415,7 +415,7 @@ function hallOfFame() {
     let hofImg = document.getElementById('hofTrainerImg');
     if(tObj.trainerName && tObj.trainerName.trim() !== "") {
         let tName = tObj.trainerName.trim().toLowerCase();
-        hofImg.src = `https://play.pokemonshowdown.com/sprites/trainers/${tName}.png`;
+        hofImg.src = `images/trainers/${tName}.png`;
         hofImg.onerror = () => { hofImg.src = 'images/trainer_default.png'; };
         hofConfig.trainerImgUrl = hofImg.src;
     } else {
