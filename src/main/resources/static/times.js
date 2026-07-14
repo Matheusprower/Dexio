@@ -687,12 +687,14 @@ async function selectPokemonForSlot(nome) {
             }
         });
 
+        let foundIdx = customForms.findIndex(f => f.name.toLowerCase() === nome.toLowerCase());
+
         currentTeamSlots[modalTargetSlot] = {
             id: data.id,
             name: nome,
             nickname: "",
             isShiny: false,
-            selectedFormIdx: 0,
+            selectedFormIdx: foundIdx !== -1 ? foundIdx : 0,
             formas: customForms
         };
 

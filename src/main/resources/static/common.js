@@ -64,7 +64,11 @@ function parseEvolutionChainCommon(chainNode, currentPath = "") {
 
 async function fetchPokemonFromPokeAPIAndSave(nome, fallbackId) {
     try {
-        const speciesRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nome.toLowerCase()}`);
+        const initialRes = await fetch(`https://pokeapi.co/api/v2/pokemon/${nome.toLowerCase()}`);
+        if (!initialRes.ok) throw new Error("Pokémon não encontrado na PokéAPI");
+        const initialData = await initialRes.json();
+
+        const speciesRes = await fetch(initialData.species.url);
         const speciesData = await speciesRes.json();
         
         let defaultVariety = speciesData.varieties.find(v => v.is_default) || speciesData.varieties[0];

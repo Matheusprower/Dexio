@@ -225,16 +225,23 @@ function carregarPokemonInfo(nome, fallbackId, isInitialLoad = false) {
                 currentForms = JSON.parse(dbPokemon.formas || "[]");
             }
             
-            currentFormIndex = 0;
+            let foundIdx = currentForms.findIndex(f => f.name.toLowerCase() === nome.toLowerCase());
+            currentFormIndex = foundIdx !== -1 ? foundIdx : 0;
             renderCurrentFormUI();
         })
         .catch(async (err) => {
-            currentDbData = null;
-            let freshData = await fetchPokemonFromPokeAPIAndSave(nome, fallbackId);
-            currentDbData = freshData;
-            currentForms = JSON.parse(freshData.formas || "[]");
-            currentFormIndex = 0;
-            renderCurrentFormUI();
+            try {
+                currentDbData = null;
+                let freshData = await fetchPokemonFromPokeAPIAndSave(nome, fallbackId);
+                currentDbData = freshData;
+                currentForms = JSON.parse(freshData.formas || "[]");
+                let foundIdx = currentForms.findIndex(f => f.name.toLowerCase() === nome.toLowerCase());
+                currentFormIndex = foundIdx !== -1 ? foundIdx : 0;
+                renderCurrentFormUI();
+            } catch(e) {
+                console.error("Erro ao buscar da PokeAPI:", e);
+                document.getElementById("pokemonNameDisplay").textContent = "ERRO AO CARREGAR";
+            }
         });
 }
 
