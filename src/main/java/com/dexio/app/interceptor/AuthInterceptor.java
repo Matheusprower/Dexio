@@ -14,7 +14,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
         
         // Permite o carregamento de arquivos estáticos e de imagens
-        if (uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".png") || uri.startsWith("/api/pokemon/list") || uri.startsWith("/api/pokemon/salvarLista")) {
+        if (uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".png") || uri.endsWith(".jpg") || uri.endsWith(".jpeg") || 
+            uri.startsWith("/api/pokemon/list") || uri.startsWith("/api/pokemon/salvarLista") || uri.startsWith("/hall-da-fama")) {
             return true; 
         }
         
